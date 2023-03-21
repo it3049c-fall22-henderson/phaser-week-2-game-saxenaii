@@ -5,23 +5,15 @@ class scene1 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/images/background.png");
-    //this.load.image("ship", "assets/images/ship.png");
-    //this.load.image("ship2", "assets/images/ship2.png");
-    //this.load.image("ship3", "assets/images/ship3.png");
-
-    this.load.spritesheet("ship", "assets/spritesheets/ship.png", { frameWidth: 16, frameHeight: 16 });
-    this.load.spritesheet("ship2", "assets/spritesheets/ship2.png", { frameWidth: 32, frameHeight: 16 });
-    this.load.spritesheet("ship3", "assets/spritesheets/ship3.png", { frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet("explosion", "assets/spritesheets/explosion.png", { frameWidth: 16, frameHeight: 16 });
-    this.load.spritesheet("power-up", "assets/spritesheets/power-up.png", { frameWidth: 16, frameHeight: 16 });
-    this.load.spritesheet("player", "assets/spritesheets/player.png", { frameWidth: 16, frameHeight: 24 });
-    this.load.spritesheet("beam", "assets/spritesheets/beam.png", { frameWidth: 16, frameHeight: 16 });
+    this.load("brick1", "assets/images/brick1_64_32.png");
+    this.load("brick2", "assets/images/brick2_64_32.png");
+    this.load("brick3", "assets/images/brick3_64_32.png");
+    this.load("ball", "assets/images/ball_32_32.png");
+    this.load("paddle", "assets/images/paddle_128_32.png");
     this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml")
   }
 
   create() {
-
   }
 
 }
