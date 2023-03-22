@@ -75,15 +75,56 @@ class scene2 extends Phaser.Scene {
     // Manage key presses
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    // GAME PHYSICS -----------------------------------------
     // Ensure that the player and ball can't leave the screen
     this.player.setCollideWorldBounds(true);
     this.ball.setCollideWorldBounds(true);
 
     this.ball.setBounce(1, 1);
+    // Make the player immovable
+    player.setImmovable(true);
 
     // Disable collision with bottom of screen.
     this.physics.world.checkCollision.down = false;
+
+    // Add collision for the bricks
+    this.physics.add.collider(this.ball, this.blueBricks, this.hitBrick, null, this);
+    this.physics.add.collider(this.ball, this.yellowBricks, this.hitBrick, null, this);
+    this.physics.add.collider(this.ball, this.redBricks, this.hitBrick, null, this);
+
+    // Add collision for the player
+    this.physics.add.collider(this.ball, this.player, this.hitPlayer, null, this);
   }
+
+  update() {
+  }
+
+  hitBrick(ball, brick) {
+    brick.disableBody(true, true);
+
+    if (ball.body.velocity.x == 0) {
+      randNum = Math.random();
+      if (randNum >= 0.5) {
+        ball.body.setVelocityX(150);
+      } else {
+        ball.body.setVelocityX(-150);
+      }
+    }
+  }
+
+  hitPlayer(ball, player) {
+    // Increase the velocity of the ball after it bounces
+    ball.setVelocityY(ball.body.velocity.y - 5);
+
+    let newXVelocity = Math.abs(ball.body.velocity.x) + 5;
+    // If the ball is to the left of the player, ensure the x velocity is negative
+    if (ball.x < player.x) {
+      ball.setVelocityX(-newXVelocity);
+    } else {
+      ball.setVelocityX(newXVelocity);
+    }
+  }
+
 
   zeroPad(number, size) {
     var stringNumber = String(number);
