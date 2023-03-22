@@ -82,7 +82,7 @@ class scene2 extends Phaser.Scene {
 
     this.ball.setBounce(1, 1);
     // Make the player immovable
-    player.setImmovable(true);
+    this.player.setImmovable(true);
 
     // Disable collision with bottom of screen.
     this.physics.world.checkCollision.down = false;
@@ -97,11 +97,44 @@ class scene2 extends Phaser.Scene {
   }
 
   update() {
+
+    // Put this in so that the player doesn't move if no key is being pressed
+    this.player.body.setVelocityX(0);
+
+    /**
+     * Check the cursor and move the velocity accordingly. With Arcade Physics we
+     * adjust velocity for movement as opposed to manipulating xy values directly
+     */
+    if (this.cursors.left.isDown) {
+      this.player.body.setVelocityX(-350);
+    } else if (this.cursors.right.isDown) {
+      this.player.body.setVelocityX(350);
+    }
+
+
+    // The ball should follow the paddle while the user selects where to start
+    this.ball.setX(player.x);
+
+    if (this.cursors.space.isDown) {
+      this.gameStarted = true;
+      this.ball.setVelocityY(-200);
+    }
+  }
+
+  //TODO
+  resetGame(world) {
+    // If ball goes out of bounds, reset score to 0, reset player, spawn bricks
+    if (this.ball.body.y > world.bounds.height) {
+
+    }
+    // If bricks cleared, game won, keep score, reset ball and player, spawn bricks
+    else if (this.blueBricks.countActive() + this.yellowBricks.countActive() + this.redBricks.countActive() == 0) {
+
+    }
   }
 
   hitBrick(ball, brick) {
     brick.disableBody(true, true);
-
     if (ball.body.velocity.x == 0) {
       randNum = Math.random();
       if (randNum >= 0.5) {
