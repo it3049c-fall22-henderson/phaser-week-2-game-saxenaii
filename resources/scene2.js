@@ -11,6 +11,7 @@ class scene2 extends Phaser.Scene {
       fill: "yellow",
     });
 
+    this.gameStarted = false;
     // Create score Label
     var graphics = this.add.graphics();
     graphics.fillStyle(0x000000, 1);
@@ -102,8 +103,7 @@ class scene2 extends Phaser.Scene {
     this.player.body.setVelocityX(0);
 
     /**
-     * Check the cursor and move the velocity accordingly. With Arcade Physics we
-     * adjust velocity for movement as opposed to manipulating xy values directly
+     * Check the cursor and move the velocity accordingly. 
      */
     if (this.cursors.left.isDown) {
       this.player.body.setVelocityX(-350);
@@ -111,10 +111,11 @@ class scene2 extends Phaser.Scene {
       this.player.body.setVelocityX(350);
     }
 
+    if (!this.gameStarted) {
 
-    // The ball should follow the paddle while the user selects where to start
-    this.ball.setX(player.x);
-
+      // The ball should follow the paddle while the user selects where to start
+      this.ball.setX(this.player.x);
+    }
     if (this.cursors.space.isDown) {
       this.gameStarted = true;
       this.ball.setVelocityY(-200);
@@ -136,7 +137,8 @@ class scene2 extends Phaser.Scene {
   hitBrick(ball, brick) {
     brick.disableBody(true, true);
     if (ball.body.velocity.x == 0) {
-      randNum = Math.random();
+      let randNum = Math.random();
+      console.log(randNum);
       if (randNum >= 0.5) {
         ball.body.setVelocityX(150);
       } else {
@@ -150,6 +152,7 @@ class scene2 extends Phaser.Scene {
     ball.setVelocityY(ball.body.velocity.y - 5);
 
     let newXVelocity = Math.abs(ball.body.velocity.x) + 5;
+    console.log(newXVelocity);
     // If the ball is to the left of the player, ensure the x velocity is negative
     if (ball.x < player.x) {
       ball.setVelocityX(-newXVelocity);
