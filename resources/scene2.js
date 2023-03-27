@@ -12,7 +12,7 @@ class scene2 extends Phaser.Scene {
     //   font: "25px Arial",
     //   fill: "yellow",
     // });
-
+    this.world = this.physics.world;
     if (!this.gameStarted) {
       // Create score Label
       var graphics = this.add.graphics();
@@ -28,12 +28,23 @@ class scene2 extends Phaser.Scene {
       this.score = 0;
       this.scoreFormatted = this.zeroPad(this.score, 6);
       this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE: " + this.scoreFormatted, 35);
+
+      // How to play instructions
+      this.startText = this.add.text(this.world.bounds.width / 2 - 150, this.world.bounds.height / 2 - 75, "Ishani Saxena's Breakout\nPress arrow keys to move \n   Press Space to start!", {
+        font: "25px Arial",
+        fill: "yellow",
+      });
+    }
+    else {
+      // How to play instructions
+      this.startText = this.add.text(this.world.bounds.width / 2 - 150, this.world.bounds.height / 2 - 75, "Press Space to Continue!", {
+        font: "25px Arial",
+        fill: "yellow",
+      });
+
     }
 
-    // Add the bricks as sprites
-    // this.brick1 = this.add.image(config.width / 2 - 50, config.height / 2, "brick1");
-    // this.brick2 = this.add.image(config.width / 2, config.height / 2, "brick2");
-    // this.brick3 = this.add.image(config.width / 2 + 50, config.height / 2, "brick3");
+
     // Add the player
     this.player = this.physics.add.sprite(400, 600, "paddle");
 
@@ -119,11 +130,12 @@ class scene2 extends Phaser.Scene {
     if (this.cursors.space.isDown) {
       this.gameResetStatus = true;
       this.gameStarted = true;
+      this.startText.destroy();
       this.ball.setVelocityY(-200);
     }
 
     // Check for end conditions
-    this.resetGame(this.physics.world);
+    this.resetGame(this.world);
   }
 
   resetGame(world) {
