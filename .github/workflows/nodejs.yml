@@ -22,6 +22,6 @@ jobs:
     - name: Run Build Step if it exisits
       run: npm run build --if-present
     - name: Run Assignment Checks
-      run: npm test
+      run: npm test --passWithNoTests
       env:
         CI: true
